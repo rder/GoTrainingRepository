@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
-	"log"
 
 	"github.com/go-kit/kit/log"
+	"github.com/qanda/pkg/data"
 )
 
 type srv struct{
@@ -23,38 +23,38 @@ func NewService (rep Repository, logger log.Logger) Service{
 
 func (s srv) GetAllQuestions () (question []Question){
 	logger:= log.With(s.logger, "method","GetAllQuestions")
-	return GetAllQuestionsMongo(question)
+	return data.GetAllQuestionsMongo(question)
 
 }
 
 func (s srv) GetAllQuestionsByUser (ctx context.Context, id int) (question []Question){
 
 	logger:= log.With(s.logger, "method","GetAllQuestionsByUser")
-	return GetAllQuestionsByUserMongo(id)
+	return data.GetAllQuestionsByUserMongo(id)
 
 }
 
 func (s srv) CreateQuestion (ctx context.Context, question Question) (int){
 
 	logger:= log.With(s.logger, "method","CreateQuestion")
-	return CreateQuestionMongo()
+	return data.CreateQuestionMongo()
 
 }
 
 func (s srv) GetQuestionByID(ctx context.Context, id int)(question []Question){
 	logger:= log.With(s.logger, "method","GetQuestionByID")
-	return GetQuestionByIDMongo(id)
+	return data.GetQuestionByIDMongo(id)
 }
 
 
 func (s srv) UpdateQuestion (ctx context.Context, id int) (int error){
 
-	logger:= log.With(s.logger, "method","UpdateQuestion")
-	return UpdateQuestionMongo(id)
+	logger:= log.With(s.logger, "method","UpdateQuestion")	
+	return data.UpdateQuestionMongo(id)
 }
 
 func (s srv) DeleteQuestion (ctx context.Context, id int) (int error){
 
 	logger:= log.With(s.logger, "method","DeleteQuestion")
-	return DeleteQuestionMongo(id)
+	return data.DeleteQuestionMongo(id)
 }

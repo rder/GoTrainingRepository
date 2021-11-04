@@ -16,6 +16,7 @@ var collectionQ *mongo.Collection
 var collectionA *mongo.Collection
 var ctxM = context.TODO()
 
+
 func init() {
     clientOptions := options.Client().ApplyURI("mongodb://localhost:27017/")
     client, err := mongo.Connect(ctxM, clientOptions)
@@ -31,8 +32,14 @@ func init() {
 	databaseQA := client.Database("QuestionsAnswers")
   	collectionQ = databaseQA.Collection("Questions")
 	collectionA = databaseQA.Collection("Answers")
-	defer client.Disconnect(ctxM)  // Disconnect from DB
+	//defer client.Disconnect(ctxM)  // Disconnect from DB
 }
+
+type Database interface{
+	CreateQuestionDB (interface{}) interface{};
+	GetAllQuestionsDB() interface{};
+	DeleteQuestionDB(id int) interface{}
+} 
 
 
 
