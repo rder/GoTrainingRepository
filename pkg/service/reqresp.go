@@ -29,16 +29,13 @@ type (
 	GetAllQuestionsByUserRequest struct {
 		IDUser    int32 `json:"idUser"`	
 	}
+
+	GetQuestionByIDRequest struct {
+		ID  int32 `json:"id"`	
+	}
+	
 	
 )
-
-/*Encode & Decode encodeAllAnswersResponse([]Questions)*/
-/*
-func encodeResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
-	return json.NewEncoder(w).Encode(response)
-}
-
-*/
 
 
 

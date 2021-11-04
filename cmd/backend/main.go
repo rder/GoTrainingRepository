@@ -3,6 +3,7 @@ package backend
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	httptransport "github.com/go-kit/kit/transport/http"
@@ -30,8 +31,27 @@ func NewHTTPServer(ctx context.Context, endpoints Endpoints) http.Handler {
 		encodeResponse,		
 	))
 
+	r.Methods("GET").Path("/question/{id}").Handler(httptransport.NewServer(
+		endpoints.GetQuestionByID,
+		decodeGetQuestionByIDRequest,
+		encodeResponse,		
+	))
 
+	r.Methods("PUT").Path("/updatequestion/{id}").Handler(httptransport.NewServer(
+		endpoints.UpdateQuestion,
+		decodeGetQuestionByIDRequest,
+		encodeResponse,		
+	))
+    
+	r.Methods("DELETE").Path("/delete/{id}").Handler(httptransport.NewServer(
+		endpoints.DeleteQuestion,
+		decodeGetQuestionByIDRequest,
+		encodeResponse,		
+	))
+	
 
+	fmt.Println("Start listening")
+    fmt.Println(http.ListenAndServe(":8080", r))
 	return r
 
 }
@@ -44,6 +64,16 @@ func commonMiddleware(next http.Handler) http.Handler {
 }
 
 /*Encode & Decode*/
+
+
+
+func decodeGetQuestionByIDRequest(_ context.Context, r *http.Request) (interface{}, error) {
+	var request GetQuestionByIDRequest
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+		return nil, err
+	}
+	return request, nil
+}
 
 func decodeQuestionUserRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var request GetAllQuestionsByUserRequest

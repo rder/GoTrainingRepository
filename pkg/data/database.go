@@ -36,7 +36,7 @@ func init() {
 
 
 
-func CreateQuestion(question Question) int{	
+func CreateQuestionMongo(question Question) int{	
 	insertResult, err := collectionQ.InsertOne(context.TODO(), question)
 	if err != nil {
 		log.Fatal(err)
@@ -61,8 +61,20 @@ func GetAllQuestions() []interface{}{
 	return results
 }
 
+func GetQuestionByIDMongo (id int) (interface{}){
 
-func GetAllQuestionsByUser(idUser int) []interface{}{
+	question,err:= collectionQ.findOne(ctxM,bson.M{"_id": &id})
+
+	if err!=nil {
+		log.Fatal("Error in db",err)
+	}
+
+	 
+	return question
+}
+
+
+func GetAllQuestionsByUserMongo(idUser int) []interface{}{
 	questions,err:= collectionQ.find(ctxM,bson.M{"_id": &idUser})	
 	if err!=nil {
 		log.Fatal("Error in db",err)
@@ -75,3 +87,37 @@ func GetAllQuestionsByUser(idUser int) []interface{}{
     } 
 	return results
 }
+
+func DeleteQuestionMongo(idQ int) []interface{}{
+
+	// Delete record
+	err := collectionA.Remove(bson.M{"_id": &idQ})
+	if err != nil {
+		log.Fatal("Remove Question fail %v\n", err)
+		
+	}
+
+	errQ := collectionQ.Remove(bson.M{"_id": &idQ})
+	if errQ != nil {
+		log.Fatal("Remove Question fail %v\n", errQ)
+		
+	}
+	return errQ.DeletedCount
+}
+
+
+func UpdateQuestionMongo(id int) []interface{}{
+	
+    update := bson.M{"$set": bson.M{"_id": &id}}
+
+    result, err := collectionA.UpdateOne(
+        context.Background(),
+        update,
+    )
+	if err != nil {
+		log.Fatal("Update Question fail %v\n", err)
+		
+	}	
+	return result.UpsertedID , err
+}
+

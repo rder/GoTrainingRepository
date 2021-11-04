@@ -11,6 +11,9 @@ type Endpoints struct{
 	GetAllQuestions endpoint.Endpoint
     GetAllQuestionsByUser endpoint.Endpoint
 	CreateQuestion endpoint.Endpoint
+	GetQuestionByID endpoint.Endpoint
+	UpdateQuestion endpoint.Endpoint
+	DeleteQuestion endpoint.Endpoint
 }
 
 
@@ -18,7 +21,11 @@ func MakeEndpoints (s Service) Endpoints{
 	return Endpoints{
 		GetAllQuestions: makeGetAllQuestionsEndpoint(s),
 		GetAllQuestionsByUser: makeGetAllQuestionsByUserEndpoint(s),
-		CreateQuestion : makeCreateQuestionEndpoint(s),
+		CreateQuestion : makeCreateQuestionEndpoint(s),		
+		GetQuestionByID : makeGetQuestionByIDEndpoint(s),	
+    	UpdateQuestion : makeUpdateQuestionEndpoint(s),
+    	DeleteQuestion : makeDeleteQuestionEndpoint(s),
+
 	}
 }
 
@@ -48,3 +55,26 @@ func makeCreateQuestionEndpoint (s Service) endpoint.Endpoint{
 		return q.id,nil
 	}
 }
+
+func makeGetQuestionByIDEndpoint (s Service) endpoint.Endpoint{
+	return func(ctx context.Context, id int)(q Question)	{
+		q:= s.GetQuestionByID(ctx,id)
+		return q,nil
+	}
+}
+
+func makeUpdateQuestionEndpoint (s Service) endpoint.Endpoint{
+	return func(ctx context.Context,question Question)(q Question)	{
+		q:= s.UpdateQuestion(ctx,question)
+		return q,nil
+	}
+}
+
+func makeDeleteQuestionEndpoint (s Service) endpoint.Endpoint{
+	return func(ctx context.Context,question Question)(q Question)	{
+		q:= s.DeleteQuestion(ctx,question)
+		return q,nil
+	}
+}
+
+    	

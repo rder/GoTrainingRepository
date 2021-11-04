@@ -22,8 +22,8 @@ type Repository interface{
 	GetAllQuestions (ctx context.Context) (question []Question)
     GetAllQuestionsByUser (ctx context.Context, id int) (question []Question)
     CreateQuestion (ctx context.Context, question Question) (int)
-//    GetQuestionByID (ctx context.Context, id int) (Question,error)
-//    UpdateQuestion (ctx context.Context, question Question) (int,error)
-//    DeleteQuestion(ctx context.Context, id int) (int,error)
+    GetQuestionByID (ctx context.Context, id int) (Question,error)
+    UpdateQuestion (ctx context.Context, question Question) (int,error)
+    DeleteQuestion(ctx context.Context, id int) (int,error)
 
 }
