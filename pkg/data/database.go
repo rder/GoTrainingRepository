@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/qanda/pkg/service"
 	"go.mongodb.org/mongo-driver/bson"
-
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -43,7 +43,7 @@ type Database interface{
 
 
 
-func CreateQuestionMongo(question Question) int{	
+func CreateQuestionMongo(question service.Question) int{	
 	insertResult, err := collectionQ.InsertOne(context.TODO(), question)
 	if err != nil {
 		log.Fatal(err)
