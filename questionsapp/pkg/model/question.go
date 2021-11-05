@@ -1,6 +1,4 @@
-package service
-
-import "context"
+package model
 
 type Question struct {
     ID        int32 `json:"id"`
@@ -16,7 +14,7 @@ type Answer struct {
 }
 
 
-
+/*
 type Repository interface{
     
 	GetAllQuestions (ctx context.Context) (question []Question)
@@ -26,4 +24,4 @@ type Repository interface{
     UpdateQuestion (ctx context.Context, question Question) (int,error)
     DeleteQuestion(ctx context.Context, id int) (int,error)
 
-}
+}*/
